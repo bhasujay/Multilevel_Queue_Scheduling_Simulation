@@ -107,7 +107,8 @@ struct CPUScheduler
 // Functions
 int randomNum();
 void randomEntry(CPUScheduler& Scheduler);
+void manualEntry(CPUScheduler& Scheduler);
+
 void startLog(std::map<int, std::tuple<int, int, int, int>>& log, int pid, int queueID, int startTime, int burstTime);
 void endLog(std::map<int, std::tuple<int, int, int, int>>& log, int pid, int endTime);
 void printLog(const std::map<int, std::tuple<int, int, int, int>>& log);
-void manualEntry(CPUScheduler& Scheduler);

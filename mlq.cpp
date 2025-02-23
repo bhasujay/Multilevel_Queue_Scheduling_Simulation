@@ -376,6 +376,38 @@ void startLog(std::map<int, std::tuple<int, int, int, int>>& log, int pid, int q
     std::get<2>(log[pid]) = burstTime;
 }
 
+void manualEntry(CPUScheduler& Scheduler)
+{
+    int numProcesses;
+    std::cout << "Enter the number of processes: ";
+    std::cin >> numProcesses;
+
+    for (int i = 0; i < numProcesses; i++)
+    {
+        int qID, burstTime, priority;
+        std::cout << "\nEnter details for Process " << i + 1 << ":\n";
+
+        std::cout << "Queue ID (0: RR, 1: SJF, 2: SJF, 3: FIFO): ";
+        std::cin >> qID;
+        while (qID < 0 || qID > 3)
+        {
+            std::cout << "Invalid Queue ID! Enter again (0-3): ";
+            std::cin >> qID;
+        }
+
+        std::cout << "Burst Time: ";
+        std::cin >> burstTime;
+
+        std::cout << "Priority (optional, default 0): ";
+        std::cin >> priority;
+
+        Process* p = new Process(i, priority, burstTime);
+        Scheduler.queues[qID]->enqueue(p);
+
+        std::cout << "Process " << i << " added to Queue " << qID << " successfully!\n";
+    }
+}
+
 void endLog(std::map<int, std::tuple<int, int, int, int>>& log, int pid, int endTime)
 {
     std::get<3>(log[pid]) = endTime;
@@ -431,34 +463,3 @@ void printLog(const std::map<int, std::tuple<int, int, int, int>>& log)
 
 
 
-void manualEntry(CPUScheduler& Scheduler)
-{
-    int numProcesses;
-    std::cout << "Enter the number of processes: ";
-    std::cin >> numProcesses;
-
-    for (int i = 0; i < numProcesses; i++)
-    {
-        int qID, burstTime, priority;
-        std::cout << "\nEnter details for Process " << i + 1 << ":\n";
-
-        std::cout << "Queue ID (0: RR, 1: SJF, 2: SJF, 3: FIFO): ";
-        std::cin >> qID;
-        while (qID < 0 || qID > 3)
-        {
-            std::cout << "Invalid Queue ID! Enter again (0-3): ";
-            std::cin >> qID;
-        }
-
-        std::cout << "Burst Time: ";
-        std::cin >> burstTime;
-
-        std::cout << "Priority (optional, default 0): ";
-        std::cin >> priority;
-
-        Process* p = new Process(i, priority, burstTime);
-        Scheduler.queues[qID]->enqueue(p);
-
-        std::cout << "Process " << i << " added to Queue " << qID << " successfully!\n";
-    }
-}
